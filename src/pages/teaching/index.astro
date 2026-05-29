@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { PAGES } from "../../config";
+
+if (PAGES.teaching.isActive === false) {
+    return Astro.redirect("/404");
+}
+
+const { title, subtitle } = PAGES.teaching;
+
+const lessonNotes: Array<{ title: string; description: string; href?: string }> = [];
+---
+
+<BaseLayout title={title}>
+    <header class="page-header">
+        <h1 class="page-title">{title}</h1>
+        {subtitle && <p class="page-subtitle">{subtitle}</p>}
+    </header>
+
+    <section class="section container-narrow">
+        <div class="prose">
+            <p>
+                Matematik derslerinde yalnızca soru çözümüne değil,
+                kavramların anlaşılmasına ve matematiksel düşünme becerisinin
+                gelişmesine odaklanıyorum. Lise ve üniversite düzeyinde birebir
+                ve küçük grup dersleri veriyorum.
+            </p>
+            <p>
+                Daha önce Okul Destek Derneği bünyesinde 36 hafta boyunca
+                gönüllü matematik dersleri verdim; bugün de lise ve üniversite
+                düzeyinde birebir ve küçük grup dersleriyle öğrencilerle
+                çalışıyorum.
+            </p>
+        </div>
+
+        <div class="academic-list mt-8">
+            <section class="academic-list-item">
+                <h3>Lise ve sınav grupları</h3>
+                <ul>
+                    <li>Lise Matematik</li>
+                    <li>Geometri</li>
+                    <li>TYT / AYT Matematik</li>
+                </ul>
+            </section>
+
+            <section class="academic-list-item">
+                <h3>Üniversite düzeyi</h3>
+                <ul>
+                    <li>Calculus 1-2</li>
+                    <li>Mühendisler için Lineer Cebir</li>
+                </ul>
+            </section>
+
+            <section class="academic-list-item">
+                <h3>Diğer sınavlar</h3>
+                <ul>
+                    <li>DGS / KPSS / ALES</li>
+                </ul>
+            </section>
+
+            <section class="academic-list-item">
+                <h3>Format ve yaklaşım</h3>
+                <ul>
+                    <li>Online birebir dersler</li>
+                    <li>Küçük grup dersleri</li>
+                    <li>Kavramsal öğrenme ve problem çözme odağı</li>
+                </ul>
+            </section>
+        </div>
+
+        <p class="teaching-cta">
+            <a href="/contact">Dersler ve programlar için iletişime geçebilirsiniz.</a>
+        </p>
+    </section>
+
+    <section class="section container-narrow">
+        <h2 class="section-title">Ders Notları</h2>
+        <div class="academic-list">
+            <article class="academic-list-item">
+                <p>
+                    Zaman içinde Calculus, Lineer Cebir ve lise matematiği
+                    üzerine kısa ders notları ve çalışma rehberleri paylaşmayı
+                    planlıyorum.
+                </p>
+                {lessonNotes.length > 0 ? (
+                    <ul>
+                        {lessonNotes.map((note) => (
+                            <li>
+                                {note.href ? (
+                                    <a href={note.href}>{note.title}</a>
+                                ) : (
+                                    note.title
+                                )}
+                                <span> — {note.description}</span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p class="body-sm mt-4">Henüz yayımlanmış ders notu bulunmuyor.</p>
+                )}
+            </article>
+        </div>
+    </section>
+
+</BaseLayout>

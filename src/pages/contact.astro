@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/ui/Icon.astro";
+import { PAGES, SOCIALS, SOCIAL_ICONS } from "../config";
+
+if (PAGES.contact.isActive === false) {
+    return Astro.redirect("/404");
+}
+
+const activeSocials = SOCIALS.filter((social) => social.isActive);
+---
+
+<BaseLayout title={PAGES.contact.title}>
+    <div class="container-narrow">
+        <header class="page-header">
+            <h1 class="page-title">{PAGES.contact.title}</h1>
+            {PAGES.contact.subtitle && (
+                <p class="page-subtitle">{PAGES.contact.subtitle}</p>
+            )}
+        </header>
+
+        <section class="section">
+            <div class="prose">
+                <p>
+                    Akademik çalışmalar, araştırma projeleri, yazılar ve
+                    matematik dersleri için iletişime geçebilirsiniz.
+                </p>
+                <p>
+                    Lise ve üniversite düzeyinde matematik dersleri, proje ve
+                    araştırma çalışmaları, yazılar veya akademik işbirlikleriyle
+                    ilgili konularda e-posta ya da sosyal bağlantılar üzerinden
+                    ulaşabilirsiniz.
+                </p>
+            </div>
+
+            <div class="academic-list mt-8">
+                <section class="academic-list-item">
+                    <h3>Dersler için iletişim</h3>
+                    <p>
+                        Lise matematik, geometri, TYT/AYT, Calculus ve lineer
+                        cebir dersleri için e-posta veya Instagram üzerinden
+                        iletişime geçebilirsiniz.
+                    </p>
+                </section>
+
+                <section class="academic-list-item">
+                    <h3>Akademik çalışmalar ve sorular</h3>
+                    <p>
+                        Araştırma projeleri, matematiksel modelleme, yazılar
+                        veya akademik çalışmalarla ilgili sorular için e-posta
+                        üzerinden ulaşabilirsiniz.
+                    </p>
+                </section>
+            </div>
+
+            <div class="item-list mt-8">
+                {activeSocials.map((social) => (
+                    <article class="card">
+                        <div class="card-content contact-card-content">
+                            <Icon name={SOCIAL_ICONS[social.name] || social.name} size={22} />
+                            <a
+                                href={social.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                class="card-title"
+                            >
+                                {social.label || social.name}
+                            </a>
+                            <p class="card-desc">{social.linkTitle}</p>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+    </div>
+</BaseLayout>

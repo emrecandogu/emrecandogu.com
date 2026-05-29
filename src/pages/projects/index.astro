@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { PAGES } from "../../config";
+
+if (PAGES.projects.isActive === false) {
+    return Astro.redirect("/404");
+}
+
+const projects = await getCollection("projects");
+
+const additionalProjects = [
+    {
+        projectType: "Teknofest ekip projesi",
+        title: "Marmara Hyperloop Projesi",
+        description:
+            "Marmara Üniversitesi döneminde, Teknofest kapsamında yürütülen Hyperloop projesinde ekip çalışmasına katıldım. Projede yüksek hızlı Hyperloop treninin manyetik levitasyon ile askılanmasını sağlayan sistemler üzerine çalıştık.",
+        contribution:
+            "Bu süreçte manyetik levitasyon, elektromanyetik sistemler ve simülasyon temelli mühendislik çalışmalarıyla tanıştım; ANSYS Maxwell gibi araçları kullanma deneyimi edindim.",
+    },
+];
+---
+
+<BaseLayout title={PAGES.projects.title}>
+    <header class="page-header">
+        <h1 class="page-title">{PAGES.projects.title}</h1>
+        <p class="page-subtitle">{PAGES.projects.subtitle}</p>
+    </header>
+
+    <section class="container-narrow">
+        <div class="academic-list">
+            {projects.map((project) => (
+                <article class="academic-list-item">
+                    <div class="item-kicker">{project.data.projectType}</div>
+                    <h2>
+                        <a href={`/projects/${project.id}`}>
+                            {project.data.title}
+                        </a>
+                    </h2>
+                    {project.data.description && (
+                        <p>{project.data.description}</p>
+                    )}
+
+                    {project.data.purpose && (
+                        <div class="project-field">
+                            <h3>Amaç</h3>
+                            <p>{project.data.purpose}</p>
+                        </div>
+                    )}
+
+                    {project.data.approaches && (
+                        <div class="project-field">
+                            <h3>Yaklaşımlar</h3>
+                            <p>{project.data.approaches}</p>
+                        </div>
+                    )}
+
+                    {project.data.contribution && (
+                        <div class="project-field">
+                            <h3>Akademik katkı</h3>
+                            <p>{project.data.contribution}</p>
+                        </div>
+                    )}
+                </article>
+            ))}
+
+            {additionalProjects.map((project) => (
+                <article class="academic-list-item">
+                    <div class="item-kicker">{project.projectType}</div>
+                    <h2>{project.title}</h2>
+                    <p>{project.description}</p>
+                    <div class="project-field">
+                        <h3>Ek açıklama</h3>
+                        <p>{project.contribution}</p>
+                    </div>
+                </article>
+            ))}
+        </div>
+    </section>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { PAGES, UI_TEXT, DEFAULT_LOCALE } from "../config";
+
+const t = UI_TEXT[DEFAULT_LOCALE];
+---
+
+<BaseLayout title={PAGES.home.title}>
+	<section class="intro-section container-narrow">
+		<p class="intro-eyebrow">{t.introEyebrow}</p>
+		<h1 class="intro-title">{t.introTitle}</h1>
+		<p class="intro-subtitle">{t.introSubtitle}</p>
+		<p class="intro-body">{t.introBody}</p>
+		<div class="intro-actions">
+			<a href="/projects" class="btn">{t.introPrimary}</a>
+			<a href="/teaching" class="btn btn-soft">{t.introSecondary}</a>
+			<a href="/contact" class="link">{t.introTertiary}</a>
+		</div>
+	</section>
+
+	<section class="section container-narrow">
+		<h2 class="section-title">{t.currentTitle}</h2>
+		<div class="current-list">
+			{t.currentItems.map((item) => (
+				<article class="current-item">
+					<div class="current-date">{item.date}</div>
+					<div class="current-content">
+						<h3>
+							{item.href ? (
+								<a href={item.href}>{item.title}</a>
+							) : (
+								item.title
+							)}
+						</h3>
+						<p>{item.description}</p>
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<section class="section container-narrow">
+		<h2 class="section-title">{t.focusTitle}</h2>
+		<div class="academic-list">
+			{t.focusAreas.map((area) => (
+				<article class="academic-list-item">
+					<h3>{area.title}</h3>
+					<p>{area.body}</p>
+				</article>
+			))}
+		</div>
+	</section>
+</BaseLayout>

@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BaseItemCard from "../../components/ui/BaseItemCard.astro";
+import { PAGES } from "../../config";
+import { getListingItem } from "../../utils/adapters";
+
+if (PAGES.writing.isActive === false) {
+    return Astro.redirect("/404");
+}
+
+const posts = (await getCollection("posts"))
+    .filter((post) => !post.data.draft)
+    .sort(
+        (a, b) => new Date(b.data.date || 0).getTime() - new Date(a.data.date || 0).getTime(),
+    );
+
+const plannedPosts = [
+    "Matematik Nasıl Çalışılır?",
+    "Cebir Neden Soyut Düşünmenin Merkezindedir?",
+    "Lineer Cebir Neden Önemlidir?",
+    "Calculus'u Anlamak Ne Demektir?",
+    "Matematik ve Fizik Arasındaki İlişki Üzerine Notlar",
+    "Matematiksel Düşünme Üzerine Notlar",
+];
+---
+
+<BaseLayout title={PAGES.writing.title}>
+    <header class="page-header">
+        <h1 class="page-title">{PAGES.writing.title}</h1>
+        <p class="page-subtitle">{PAGES.writing.subtitle}</p>
+    </header>
+
+    <section class="section container-narrow">
+        <div class="prose">
+            <p>
+                Matematiksel düşünme, öğrenme yöntemleri, cebir, lineer cebir,
+                calculus, fizik ve bilimsel araştırma üzerine notlar yayımlamayı
+                planlıyorum.
+            </p>
+        </div>
+
+        <div class="academic-list mt-8">
+            <section class="academic-list-item">
+                <h2>Planlanan Yazılar</h2>
+                <ul>
+                    {plannedPosts.map((title) => <li>{title}</li>)}
+                </ul>
+                <p class="body-sm mt-4">
+                    Henüz yayımlanmış yazı bulunmuyor. İlk yazılar hazırlandıkça
+                    burada bağlantılı olarak paylaşılacak.
+                </p>
+            </section>
+        </div>
+    </section>
+
+    {posts.length > 0 ? (
+        <section class="item-list">
+            {posts.map((entry) => {
+                const item = getListingItem(entry);
+                return <BaseItemCard {...item} href={`/writing/${entry.id}`} />;
+            })}
+        </section>
+    ) : (
+        null
+    )}
+</BaseLayout>
