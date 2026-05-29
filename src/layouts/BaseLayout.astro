@@ -1,6 +1,7 @@
 ---
 import { SITE, THEME_CONFIG, ANALYTICS, THEMES } from "../config";
 import { ClientRouter } from "astro:transitions";
+import Analytics from "@vercel/analytics/astro";
 import LeftSidebar from "../components/layout/LeftSidebar.astro";
 import RightMain from "../components/layout/RightMain.astro";
 import "@fontsource/inter/400.css";
@@ -227,5 +228,6 @@ const pageTitle = title === SITE.title ? SITE.title : `${title} | ${SITE.title}`
                 <slot />
             </RightMain>
         </div>
+        <Analytics />
     </body>
 </html>
