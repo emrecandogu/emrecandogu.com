@@ -2,6 +2,7 @@ scripts/gen-favicon/favicons/
 
 # build output
 dist/
+.vercel/
 # generated types
 .astro/
 
